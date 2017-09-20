@@ -1,0 +1,27 @@
+{% load static %}<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}EAL Computer Club{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">EAL Computer Club</a>
+    </div>
+</nav>
+
+<div class="container">
+    <ol class="breadcrumb my-4">
+        {% block breadcrumb %}
+        {% endblock %}
+    </ol>
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

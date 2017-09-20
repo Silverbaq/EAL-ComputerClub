@@ -21,6 +21,8 @@ from mysite import views as mysite_views
 
 urlpatterns = [
     url(r'^$', mysite_views.index, name='index'),
-    url(r'^board/', boards_views.home, name='board_index'),
+    url(r'^board/', boards_views.home, name='board_home'),
+    url(r'^boards/(?P<pk>\d+)/$', boards_views.board_topics, name='board_topics'),
+    url(r'^boards/(?P<pk>\d+)/new/$', boards_views.new_topic, name='new_topic'),
     url(r'^admin/', admin.site.urls),
 ]

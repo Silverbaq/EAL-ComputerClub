@@ -17,12 +17,17 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
+from hellodjango import settings
+from django.conf.urls.static import static
+
 from boards import views as boards_views
 from accounts import views as accounts_views
 from mysite import views as mysite_views
 
 urlpatterns = [
     url(r'^$', mysite_views.index, name='index'),
+    url(r'^news_post/(?P<pk>\d+)/$', mysite_views.news_post, name='news_post'),
+
     url(r'^signup/$', accounts_views.signup, name='signup'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
@@ -54,3 +59,6 @@ urlpatterns = [
         auth_views.PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'),
         name='password_change_done'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,3 +1,22 @@
+
+body {
+  background-image: url(../img/white_wall.png);
+}
+
 .navbar-brand {
-  font-family: 'Libre Barcode 39 Text', cursive;
+    font-family: 'Libre Barcode 39 Text', cursive;
+}
+
+.news-post-image {
+    max-height: 200px;
+    display: block;
+    margin: auto;
+}
+
+.news-post-content {
+
+}
+
+.white-background {
+    background-color: white;
 }

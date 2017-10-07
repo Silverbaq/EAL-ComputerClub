@@ -1,0 +1,43 @@
+{% extends 'base_news.html' %}
+
+{% block title %}
+    {{ post.title }} - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-header text-center"><h1>{{ post.title }}</h1></div>
+        <div class="card-body">
+            <div class="row"><img class="img-fluid news-post-image" src="{{ post.image.url }}"/></div>
+            <div class="row">{{ post.text }}"</div>
+
+        </div>
+        <div class="card-footer">
+        <h4>Comment on the post</h4>
+            {% if user %}
+                <form method="post" class="mb-4">
+                    {% csrf_token %}
+                    {% include 'includes/form.html' %}
+                    <button type="submit" class="btn btn-success">Post a comment</button>
+                </form>
+            {% else %}
+                Please login to comment...
+            {% endif %}
+            <hr/>
+
+            {% if post.comments|length > 0 %}
+                {% for comment in post.comments %}
+                    {{ comment.subject }}
+                    {{ comment.text }}
+                {% endfor %}
+            {% else %}
+                -- No Comments --
+            {% endif %}
+
+        </div>
+    </div>
+
+
+
+{% endblock %}

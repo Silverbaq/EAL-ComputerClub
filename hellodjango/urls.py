@@ -27,6 +27,7 @@ from mysite import views as mysite_views
 urlpatterns = [
     url(r'^$', mysite_views.index, name='index'),
     url(r'^news_post/(?P<pk>\d+)/$', mysite_views.news_post, name='news_post'),
+    url(r'^comment/(?P<pk>\d+)/$', mysite_views.comment, name='comment'),
 
     url(r'^signup/$', accounts_views.signup, name='signup'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),

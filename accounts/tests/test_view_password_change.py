@@ -1,16 +1,15 @@
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
-from django.contrib.auth import views as auth_views
-from django.core.urlresolvers import reverse
-from django.urls import resolve
 from django.test import TestCase
+from django.urls import resolve, reverse
 
 
 class PasswordChangeTests(TestCase):
     def setUp(self):
         username = 'john'
         password = 'secret123'
-        user = User.objects.create_user(username=username, email='john@doe.com', password=password)
+        User.objects.create_user(username=username, email='john@doe.com', password=password)
         url = reverse('password_change')
         self.client.login(username=username, password=password)
         self.response = self.client.get(url)
@@ -84,7 +83,7 @@ class SuccessfulPasswordChangeTests(PasswordChangeTestCase):
         Create a new request to an arbitrary page.
         The resulting response should now have an `user` to its context, after a successful sign up.
         '''
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse('index'))
         user = response.context.get('user')
         self.assertTrue(user.is_authenticated)
 

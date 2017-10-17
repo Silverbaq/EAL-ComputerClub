@@ -1,12 +1,13 @@
-from django.contrib.auth.models import User
 from django.db.models import Count
-from django.shortcuts import render, redirect, get_object_or_404
-from .forms import NewTopicForm, PostForm
-from .models import Board, Topic, Post
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import UpdateView, ListView
 from django.utils import timezone
 from django.utils.decorators import method_decorator
+from django.urls import reverse
+from .forms import NewTopicForm, PostForm
+from .models import Board, Topic, Post
 
 
 class BoardListView(ListView):
@@ -35,7 +36,7 @@ class PostListView(ListView):
     model = Post
     context_object_name = 'posts'
     template_name = 'boards/topic_posts.html'
-    paginate_by = 2
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         session_key = 'viewed_topic_{}'.format(self.topic.pk)
@@ -43,7 +44,6 @@ class PostListView(ListView):
             self.topic.views += 1
             self.topic.save()
             self.request.session[session_key] = True
-
         kwargs['topic'] = self.topic
         return super().get_context_data(**kwargs)
 
@@ -53,12 +53,9 @@ class PostListView(ListView):
         return queryset
 
 
-# Create your views here.
 @login_required
 def new_topic(request, pk):
     board = get_object_or_404(Board, pk=pk)
-    #user = User.objects.first()  # TODO: get the currently logged in user
-
     if request.method == 'POST':
         form = NewTopicForm(request.POST)
         if form.is_valid():
@@ -66,25 +63,15 @@ def new_topic(request, pk):
             topic.board = board
             topic.starter = request.user
             topic.save()
-
-            post = Post.objects.create(
+            Post.objects.create(
                 message=form.cleaned_data.get('message'),
                 topic=topic,
                 created_by=request.user
             )
-
             return redirect('topic_posts', pk=pk, topic_pk=topic.pk)
     else:
         form = NewTopicForm()
-
     return render(request, 'boards/new_topic.html', {'board': board, 'form': form})
-
-
-def topic_posts(request, pk, topic_pk):
-    topic = get_object_or_404(Topic, board__pk=pk, pk=topic_pk)
-    topic.views += 1
-    topic.save()
-    return render(request, 'boards/topic_posts.html', {'topic': topic})
 
 
 @login_required
@@ -111,14 +98,14 @@ def reply_topic(request, pk, topic_pk):
             return redirect(topic_post_url)
     else:
         form = PostForm()
-    return render(request, 'reply_topic.html', {'topic': topic, 'form': form})
+    return render(request, 'boards/reply_topic.html', {'topic': topic, 'form': form})
 
 
 @method_decorator(login_required, name='dispatch')
 class PostUpdateView(UpdateView):
     model = Post
     fields = ('message', )
-    template_name = 'edit_post.html'
+    template_name = 'boards/edit_post.html'
     pk_url_kwarg = 'post_pk'
     context_object_name = 'post'
 

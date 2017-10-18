@@ -12,6 +12,9 @@ class NewsPost(models.Model):
         # TODO: Fix this function
         return Comment.objects.filter(comment__newPost=self).count()
 
+    def get_pick(self):
+        return self.text[:200] + '...'
+
 
 class Comment(models.Model):
     subject = models.CharField(max_length=50)

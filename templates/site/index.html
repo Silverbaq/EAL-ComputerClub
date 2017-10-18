@@ -1,28 +1,77 @@
 {% extends 'base_news.html' %}
 
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/style/one-page-wonder.css' %}">
+{% endblock %}
+
+<!-- Custom styles for this template -->
+
+
 {% block content %}
+
+        <header class="masthead">
+      <div class="overlay">
+        <div class="container">
+          <h1 class="display-1 text-white">EAL Computer Club</h1>
+          <h2 class="display-4 text-white">There is no place like 127.0.0.1</h2>
+        </div>
+      </div>
+    </header>
+
+
 
     <div>
         {% for p in posts %}
-            <div class="card mb-2">
-                <div class="card-body p-3">
-                    <div class="row"> <!-- item layout -->
-                        <div class="col-3"> <!-- image -->
-                            <img src="{{ p.image.url }}" class="img-fluid w-100" alt="... ... ...">
-                        </div>
-                        <div class="col-9 justify-content-center align-self-center"> <!-- title / body -->
-                            <div class="row mb-3">
+            {% if  forloop.counter0|divisibleby:2 %}
 
-                                <div class="col-12 text-right">
-                                    <small class="text-muted">{{ p.created_at }}</small>
-                                </div>
-                            </div>
-
-                            <a href="{% url 'news_post' p.pk %}"><h2>{{ p.title }}</h2></a>
-                        </div>
-                    </div>
-                </div>
+            <section>
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6 order-2">
+            <div class="p-5">
+              <img class="img-fluid rounded-circle" src="{{ p.image.url }}" alt="">
             </div>
+          </div>
+          <div class="col-md-6 order-1">
+            <div class="p-5">
+              <h2 class="display-4">{{ p.title }}</h2>
+
+              <p>{{ p.created_at }}</p>
+                <p>{{ p.get_pick }} <a href="{% url 'news_post' p.pk %}">Read more</a></p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+            {% else %}
+                <section>
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="p-5">
+              <img class="img-fluid rounded-circle" src="{{ p.image.url }}" alt="">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-5">
+              <h2 class="display-4">{{ p.title }}</h2>
+
+
+              <p>{{ p.created_at }}</p>
+                <p>{{ p.get_pick }} <a href="{% url 'news_post' p.pk %}">Read more</a></p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+            {% endif %}
+
+
         {% endfor %}
     </div>
 

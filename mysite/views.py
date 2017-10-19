@@ -12,8 +12,9 @@ def index(request):
 
 def news_post(request, pk):
     post = get_object_or_404(NewsPost, pk=pk)
+    comments = post.comments.all()
     form = CommentForm()
-    return render(request, 'site/post.html', {'post': post, 'form': form})
+    return render(request, 'site/post.html', {'post': post, 'comments':comments, 'form': form})
 
 
 @login_required

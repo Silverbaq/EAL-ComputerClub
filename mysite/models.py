@@ -22,3 +22,6 @@ class Comment(models.Model):
     post = models.ForeignKey(NewsPost, related_name='comments')
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, related_name='comments')
+
+    def __str__(self):
+        return self.subject

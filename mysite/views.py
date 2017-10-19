@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
-    posts = NewsPost.objects.all()
+    posts = NewsPost.objects.all().order_by('-id')
     return render(request, 'site/index.html', {'posts': posts})
 
 

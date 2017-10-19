@@ -24,6 +24,8 @@ def comment(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
+            comment.created_by = request.user
             comment.save()
-    return redirect('site/news_post', pk=pk)
+            return redirect('news_post', pk=pk)
+    return render(request, 'site/news_post', pk=pk)
 

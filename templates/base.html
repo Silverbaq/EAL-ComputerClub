@@ -81,6 +81,14 @@
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static 'js/popper.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type="application/javascript">
+
+
+        $(document).ready(function () {
+            $('img').addClass('img-fluid');
+        });
+
+    </script>
 {% block javascript %}{% endblock %}
 </body>
 </html>
